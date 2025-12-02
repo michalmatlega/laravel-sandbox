@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    //\App\Models\Book::withCount('reviews')->withAvg('reviews', 'rating')->having('reviews_count', '>=', 10)->orderBy('reviews_avg_ratio', 'desc')->limit(10)
     return redirect()->route('tasks.index');
 });
 
@@ -70,3 +71,6 @@ Route::put('/tasks/{task}/toggle-complete', function (Task $task) {
     $task->toggleComplete();
     return redirect()->back()->with('success', 'Task marked as completed!');
 })->name('tasks.toggle-complete');
+
+
+Route::resource('books', App\Http\Controllers\BookController::class);
