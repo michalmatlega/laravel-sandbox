@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ReviewController;
 use App\Models\Task;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
@@ -17,8 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', static function () {
-    //\App\Models\Book::withCount('reviews')->withAvg('reviews', 'rating')->having('reviews_count', '>=', 10)->orderBy('reviews_avg_ratio', 'desc')->limit(10)
-    return redirect()->route('tasks.index');
+    return view('index');
 });
 
 Route::get('/tasks', static function () {
@@ -73,4 +73,15 @@ Route::put('/tasks/{task}/toggle-complete', static function (Task $task) {
 })->name('tasks.toggle-complete');
 
 
-Route::resource('books', App\Http\Controllers\BookController::class);
+Route::resource('books', App\Http\Controllers\BookController::class)->only(['index', 'show']);
+
+//Route::resource('books.reviews', \App\Http\Controllers\ReviewController::class)
+//    ->scoped(['review' => 'book'])
+//    ->only(['create', 'store']);
+
+Route::get('books/{book}/reviews/create', [ReviewController::class, 'create'])
+    ->name('books.reviews.create');
+
+Route::post('books/{book}/reviews', [ReviewController::class, 'store'])
+    ->name('books.reviews.store')
+    ->middleware('throttle:reviews');

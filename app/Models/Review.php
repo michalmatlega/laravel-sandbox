@@ -20,7 +20,8 @@ class Review extends Model
     }
 
     protected static function booted(): void {
-        static::updated(fn(Review $review) => cache()->forget('book:' . $review->book_id));
-        static::deleted(fn(Review $review) => cache()->forget('book:' . $review->book_id));
+        static::updated(static fn(Review $review) => cache()->forget('book:' . $review->book_id));
+        static::deleted(static fn(Review $review) => cache()->forget('book:' . $review->book_id));
+        static::created(static fn(Review $review) => cache()->forget('book:' . $review->book_id));
     }
 }
