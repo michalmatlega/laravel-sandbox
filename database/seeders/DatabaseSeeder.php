@@ -48,6 +48,12 @@ class DatabaseSeeder extends Seeder
                 ->for($book)
                 ->create();
         });
+
+
+        User::factory(1000)->create();
+
+        $this->call(EventSeeder::class);
+        $this->call(AttendeeSeeder::class);
     }
 
 }
