@@ -21,6 +21,10 @@ Route::get('/', static function () {
     return view('index');
 });
 
+Route::get('/poll', static function () {
+    return view('poll.app');
+});
+
 Route::get('/tasks', static function () {
     return view('tasks.index', [
         'tasks' => Task::latest()->paginate()

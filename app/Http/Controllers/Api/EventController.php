@@ -54,7 +54,7 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        Gate::authorize('view', Event::class);
+        Gate::authorize('view', $event);
         return new EventResource($this->loadRelationships($event));
     }
 

@@ -13,6 +13,14 @@ Route::get('/user', function (Request $request) {
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
-Route::apiResource('events', EventController::class)->middlewareFor(['store', 'update', 'destroy'], 'auth:sanctum');
+//Route::apiResource('events', EventController::class)->middlewareFor(['store', 'update', 'destroy'], 'auth:sanctum');
+
+Route::apiResource('events', EventController::class)
+    ->only(['index', 'show']);
+
+Route::apiResource('events', EventController::class)
+    ->only(['store', 'update', 'destroy'])
+    ->middleware(['auth:sanctum', 'throttle:api']);
+
 Route::apiResource('events.attendees', AttendeeController::class)->scoped()->except(['update'])->middleware('auth:sanctum');
 

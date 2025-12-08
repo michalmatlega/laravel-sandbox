@@ -29,7 +29,7 @@ class AttendeeController extends Controller
     public function store(Request $request, Event $event) {
         Gate::authorize('create', Attendee::class);
         $attendee = $this->loadRelationships($event->attendees()->create([
-           'user_id' => 1
+           'user_id' => $request->user()->id
         ]));
         return new AttendeeResource($attendee);
     }
